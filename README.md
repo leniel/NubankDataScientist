@@ -1,7 +1,6 @@
-# NubankDataScientist
-Nubank coding test in Python
+## Nubank Data Scientist coding test in Python
 
-#Description#
+#### Description
 One of the most important decisions we make here at Nubank is who we give credit cards to. We want to make sure that we're only giving credit cards to people who are likely to pay us back.
 
 We have some data from people who we have given a credit card to in the past, and one of our data scientists has created a model that tries to predict whether someone will pay their credit card bills based on this data.  He claims that the model has really good performance for this problem, with an AUC score of 0.59 (AUC stands for Area Under the receiver operating characteristic Curve, a common performance metric for classification models).
@@ -48,10 +47,11 @@ We know this might be your first experience with Python, so don't worry if your 
 
 Lastly, there is no need to rush with the solution: delivering your exercise earlier than the due date is not a criteria we take into account when evaluating the exercise: so if you finish earlier than that, please take some time to see what you could improve. Also, if you think the time frame may not be enough for any reason, don't hesitate to ask for more time.
 
-#Web API | Data Scientist - Machine Learning Engineer - Nubank#
+## Solution proposed
+### Web API | Data Scientist - Machine Learning Engineer - Nubank
 _____________________________________________________________
 
-Technologies:
+#### Technologies:
 - Programming language: Python 3.6.5 [https://www.python.org/]
 - IDE = Visual Studio Code 1.22.1 for Windows [https://code.visualstudio.com/] with
 Python extension [https://marketplace.visualstudio.com/items?itemName=ms-python.python].
@@ -59,6 +59,7 @@ More info: https://code.visualstudio.com/docs/languages/python
 
 The solution has the following structure:
 
+```
 ├── app.py (Flask web service endpoint)
 ├── app.log (app's logging information)
 ├── description.txt (the problem description)
@@ -71,10 +72,11 @@ The solution has the following structure:
 ├── \models (models built)
 ├── \parquets (parquet file(s) used to train model(s))
 ├── \tests (unit tests)
+```
 
 * The code has relevant comments where appropriate.
 
-####### folders #######
+#### Folders
 - parquets
 Contains the parquet file(s) used to feed the model.
 The file name follows this pattern: training_set_yyyy_mm_dd.parquet where:
@@ -90,22 +92,26 @@ The file name follows the same pattern as described for parquets. IO is done wit
 - tests
 Simple tests to assure the app functionality works as expected.
 
-####### Web Service #######
+#### Web Service
 The Web service is built with Flask [http://flask.pocoo.org/].
 
 It has a /predict endpoint that accepts only JSON payloads.
 
 Using Visual Studio Code for Windows, to start the web service in Debug mode, select Debug (Ctrl + Shift + D) and Python: Flask (0.11 or later) in the dropdown menu. Click Play to start debugging. You'll see the following command is executed in the Terminal window inside Visual Studio code:
 
+```
 PS C:\Repos\NubankDataScientist> cd 'c:\Repos\NubankDataScientist'; ${env:FLASK_APP}='C:\Repos\NubankDataScientist/app.py'; ${env:PYTHONIOENCODING}='UTF-8'; ${env:PYTHONUNBUFFERED}='1'; & 'python' 'C:\Users\leniel\.vscode\extensions\ms-python.python-2018.3.1\pythonFiles\PythonTools\visualstudio_py_launcher.py' 'c:\Repos\NubankDataScientist' '51664' '34806ad9-833a-4524-8cd6-18ca4aa74f14' 'RedirectOutput,RedirectOutput' '-m' 'flask' 'run' '--no-debugger' '--no-reload'
  * Serving Flask app "app"
 INFO:werkzeug:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit) (2018-04-09 14:11:14; _internal.py:88)
+```
 
 Sending requests to the web-service using httpie [https://httpie.org/]:
 
 Open PowerShell and type:
 
+```
 PS C:\Users\leniel> http POST localhost:5000/predict id=8db4206f-8878-174d-7a23-dd2c4f4ef5a0, score_3=480.0, score_4=105.2, score_5=0.8514, score_6=94.2, income=50000
+
 HTTP/1.0 200 OK
 Content-Length: 954
 Content-Type: application/json
@@ -157,14 +163,16 @@ Server: Werkzeug/0.14.1 Python/3.6.5
         }
     ]
 }
+```
 
 The JSON output is returned. multiple_versions is set in app.py and that's why it returned predictions for multiple models. Otherwise only one prediction would've been returned.
 
-####### Logging #######
+#### Logging
 Logging information can be seen in the file app.log which stores all relevant information about what's going on with the app including debug info throughout the code, detailed exception stack-trace, etc.
 
 To simulate an exception, in PowerShell type the following command:
 
+```
 PS C:\Users\leniel> http --form POST localhost:5000/predict "id=8db4206f-8878-174d-7a23-dd2c4f4ef5a0"
 HTTP/1.0 400 BAD REQUEST
 Content-Length: 53
@@ -175,11 +183,13 @@ Server: Werkzeug/0.14.1 Python/3.6.5
 {
     "message": "predict accepts only JSON payload"
 }
+```
 
 We tried to send a post request with content-type = form-data and so a brief message explains why no prediction was returned.
 
 To simulate an invalid JSON request, in PowerShell type the following command:
 
+```
 PS C:\Users\leniel> http POST localhost:5000/predict id=8db4206f-8878-174d-7a23-dd2c4f4ef5a0, score_3=480.0, score_4=105
 .2, score_5=0.8514
 HTTP/1.0 500 INTERNAL SERVER ERROR
@@ -191,5 +201,6 @@ Server: Werkzeug/0.14.1 Python/3.6.5
 {
     "message": "The following error occurred while processing the request: X has 2 features per sample; expecting 4.\nCheck the log file for more details."
 }
+
 
 As can be seen, the output message clearly states what occurred... to see the full stack-trace and get to exactly where in the code the error happened, check the app.log file.
