@@ -77,22 +77,31 @@ The solution has the following structure:
 ├── \tests (unit tests)
 ```
 
-* The code has relevant comments where appropriate.
+\* The code has relevant comments where appropriate.
 
 #### Folders
 - parquets
+
 Contains the parquet file(s) used to feed the model.
+
 The file name follows this pattern: training_set_yyyy_mm_dd.parquet where:
+
 yyyy = year, mm = month and dd = day
+
 Eg.: training_set_2018_04_07.parquet
+
 When multiple_versions flag in app.py is set to False, the file with the oldest date is picked up by default, that is, the model from which to draw predictions will be trained based on this file.
-* For testing purposes there are 10 parquets in this folder. They're equal.
+
+\* For testing purposes there are 10 parquets in this folder. They're equal.
 
 - models
+
 Trained models are saved to this folder with the help of joblib.dump. This is done to improve reuse.
+
 The file name follows the same pattern as described for parquets. IO is done with pickle [https://docs.python.org/3/library/pickle.html]
 
 - tests
+
 Simple tests to assure the app functionality works as expected.
 
 #### Web Service
