@@ -53,8 +53,11 @@ _____________________________________________________________
 
 #### Technologies:
 - Programming language: Python 3.6.5 [https://www.python.org/]
+
 - IDE = Visual Studio Code 1.22.1 for Windows [https://code.visualstudio.com/] with
+
 Python extension [https://marketplace.visualstudio.com/items?itemName=ms-python.python].
+
 More info: https://code.visualstudio.com/docs/languages/python
 
 The solution has the following structure:
@@ -201,6 +204,6 @@ Server: Werkzeug/0.14.1 Python/3.6.5
 {
     "message": "The following error occurred while processing the request: X has 2 features per sample; expecting 4.\nCheck the log file for more details."
 }
-
+```
 
 As can be seen, the output message clearly states what occurred... to see the full stack-trace and get to exactly where in the code the error happened, check the app.log file.
